@@ -576,6 +576,31 @@ Set-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\CloudContent" 
 Write-Output "Turn off Microsoft consumer experiences"
 Set-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -Type "DWORD" -Value 1 -Force
 ##
+#Enable LSA Protection
+##
+Write-Output "Enable LSA Protection"
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa" -Name "RunAsPPL" -Type "DWORD" -Value 1 -Force
+##
+#NetBIOS Node Type 2
+##
+Write-Output "NetBIOS Node Type 2"
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\NetBT\Parameters" -Name "NodeType" -Type "DWORD" -Value 2 -Force
+##
+#Turn off Autoplay
+##
+Write-Output "Turn off Autoplay"
+Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoDriveTypeAutoRun" -Type "DWORD" -Value 255 -Force
+##
+#Disallow Autoplay for non-volume devices
+##
+Write-Output "Disallow Autoplay for non-volume devices"
+Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoAutoplayfornonVolume" -Type "DWORD" -Value 1 -Force
+##
+#Set the default behavior for AutoRun
+##
+Write-Output "Set the default behavior for AutoRun"
+Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoAutorun" -Type "DWORD" -Value 1 -Force
+##
 $infomsg2 = "`r`n" +
 "###########################################################################################`r`n" +
 "### Windows Firewall Hardening ###`r`n" +
