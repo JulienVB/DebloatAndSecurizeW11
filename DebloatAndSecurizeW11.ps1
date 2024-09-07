@@ -84,7 +84,6 @@ mkdir -Force "HKCR:\Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}"
 Set-ItemProperty "HKCR:\Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" "System.IsPinnedToNameSpaceTree" 0
 Remove-PSDrive "HKCR"
 
-#Thank you Matthew Israelsson
 Write-Output "Removing run hook for new users"
 reg load "hku\Default" "C:\Users\Default\NTUSER.DAT"
 reg delete "HKEY_USERS\Default\Software\Microsoft\Windows\CurrentVersion\Run" /v "OneDriveSetup" /f
