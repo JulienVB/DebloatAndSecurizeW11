@@ -606,6 +606,32 @@ Write-Output "Disable Windows Ink"
 New-Item -Path "HKLM:\Software\Policies\Microsoft\" -Name "WindowsInkWorkspace" -Force
 Set-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\WindowsInkWorkspace\" -Name "AllowWindowsInkWorkspace" -Type "DWORD" -Value 0 -Force
 ##
+#Disable Sign-in and lock last interactive user automatically after a restart
+##
+Write-Output "Sign-in and lock last interactive user automatically after a restart"
+Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System\" -Name "DisableAutomaticRestartSignOn" -Type "DWORD" -Value 1 -Force
+##
+#WinRM Client Hardening
+##
+Write-Output "WinRM Client Hardening"
+New-Item -Path "HKLM:\Software\Policies\Microsoft\Windows\" -Name "WinRM" -Force
+New-Item -Path "HKLM:\Software\Policies\Microsoft\Windows\WinRM\" -Name "Client" -Force
+Set-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\WinRM\Client\" -Name "AllowBasic" -Type "DWORD" -Value 0 -Force
+Set-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\WinRM\Client\" -Name "AllowUnencryptedTraffic" -Type "DWORD" -Value 0 -Force
+Set-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\WinRM\Client\" -Name "AllowDigest" -Type "DWORD" -Value 0 -Force
+##
+#WinRM Service Hardening
+##
+Write-Output "WinRM Service Hardening"
+New-Item -Path "HKLM:\Software\Policies\Microsoft\Windows\WinRM\" -Name "Service" -Force
+Set-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\WinRM\Service\" -Name "AllowAutoConfig" -Type "DWORD" -Value 0 -Force
+Set-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\WinRM\Service\" -Name "AllowBasic" -Type "DWORD" -Value 0 -Force
+Set-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\WinRM\Service\" -Name "AllowUnencryptedTraffic" -Type "DWORD" -Value 0 -Force
+Set-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\WinRM\Service\" -Name "DisableRunAs" -Type "DWORD" -Value 1 -Force
+##
+New-Item -Path "HKLM:\Software\Policies\Microsoft\Windows\WinRM\Service" -Name "WinRS" -Force
+Set-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\WinRM\Service\WinRS" -Name "AllowRemoteShellAccess" -Type "DWORD" -Value 0 -Force
+##
 $infomsg2 = "`r`n" +
 "###########################################################################################`r`n" +
 "### Windows Firewall Hardening ###`r`n" +
