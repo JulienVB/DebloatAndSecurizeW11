@@ -600,6 +600,12 @@ Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies
 Write-Output "Set the default behavior for AutoRun"
 Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoAutorun" -Type "DWORD" -Value 1 -Force
 ##
+#Disable Windows Ink
+##
+Write-Output "Disable Windows Ink"
+New-Item -Path "HKLM:\Software\Policies\Microsoft\" -Name "WindowsInkWorkspace" -Force
+Set-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\WindowsInkWorkspace\" -Name "AllowWindowsInkWorkspace" -Type "DWORD" -Value 0 -Force
+##
 $infomsg2 = "`r`n" +
 "###########################################################################################`r`n" +
 "### Windows Firewall Hardening ###`r`n" +
@@ -686,8 +692,6 @@ Write-Output "Block-TCP-NetBIOS"
 New-NetFirewallRule -DisplayName "Block-TCP-NetBIOS" -Direction Inbound -Action Block -Protocol TCP -LocalPort 137
 Write-Output "Block-UDP-NetBIOS"
 New-NetFirewallRule -DisplayName "Block-UDP-NetBIOS" -Direction Inbound -Action Block -Protocol UDP -LocalPort 137
-##
-#
 ##
 ##
 $infomsg2 = "`r`n" +
