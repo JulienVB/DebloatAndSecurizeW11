@@ -632,6 +632,36 @@ Set-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\WinRM\Service\
 New-Item -Path "HKLM:\Software\Policies\Microsoft\Windows\WinRM\Service" -Name "WinRS" -Force
 Set-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\WinRM\Service\WinRS" -Name "AllowRemoteShellAccess" -Type "DWORD" -Value 0 -Force
 ##
+#Disable Cloud Search
+##
+Write-Output "Disable Cloud Search"
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "AllowCloudSearch" -Type "DWORD" -Value 0 -Force
+##
+#Disable Cortana Search
+##
+Write-Output "Disable Cortana Search"
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "AllowCortana" -Type "DWORD" -Value 0 -Force
+##
+#Disable Cortana above lock screen
+##
+Write-Output "Disable Cortana above log screen"
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "AllowCortanaAboveLock" -Type "DWORD" -Value 0 -Force
+##
+#Disable indexing of encrypted files
+##
+Write-Output "Disable indexing of encrypted files"
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "AllowIndexingEncryptedStoresOrItems" -Type "DWORD" -Value 0 -Force
+##
+#Disable usage of location by Search
+##
+Write-Output "Disable usage of location by Search"
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "AllowSearchToUseLocation" -Type "DWORD" -Value 0 -Force
+##
+#Set Search shared information on Anonymous
+##
+Write-Output "Set Search shared information on Anonymous"
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "ConnectedSearchPrivacy" -Type "DWORD" -Value 3 -Force
+##
 $infomsg2 = "`r`n" +
 "###########################################################################################`r`n" +
 "### Windows Firewall Hardening ###`r`n" +
