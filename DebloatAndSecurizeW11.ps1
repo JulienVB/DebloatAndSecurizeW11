@@ -662,6 +662,12 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search
 Write-Output "Set Search shared information on Anonymous"
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "ConnectedSearchPrivacy" -Type "DWORD" -Value 3 -Force
 ##
+#Disable News & Interests in task bar
+##
+Write-Output "Disable News & Interests in task bar"
+New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\" -Name "Windows Feeds" -Force
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds" -Name "EnableFeeds" -Type "DWORD" -Value 0 -Force
+##
 $infomsg2 = "`r`n" +
 "###########################################################################################`r`n" +
 "### Windows Firewall Hardening ###`r`n" +
