@@ -1,12 +1,14 @@
 ##Debloat+Security Script by jvb##
 ##
-##V2.1
+##V2.2
+##
+##Tested via HardeningKitty 0.9.2-1690255284 ==> Score: 4.17 (As last commit date)
 ##
 #Requires -RunAsAdministrator
 ##
 $infomsg = "`r`n" +
 "###########################################################################################`r`n" +
-"### Windows 10/11 Hardening V2.1 (Vanbelle J.) ###`r`n" +
+"### Windows 10/11 Hardening V2.2 (Vanbelle J.) ###`r`n" +
 "###########################################################################################`r`n"
 Write-Host $infomsg
 ##
@@ -85,7 +87,7 @@ Set-ItemProperty "HKCR:\Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}
 Remove-PSDrive "HKCR"
 
 Write-Output "Removing run hook for new users"
-reg load "hku\Default" "C:\Users\Default\NTUSER.DAT"
+reg load "HKU\Default" "C:\Users\Default\NTUSER.DAT"
 reg delete "HKEY_USERS\Default\Software\Microsoft\Windows\CurrentVersion\Run" /v "OneDriveSetup" /f
 reg unload "hku\Default"
 
