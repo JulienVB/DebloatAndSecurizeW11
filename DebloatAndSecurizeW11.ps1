@@ -86,21 +86,6 @@ mkdir -Force "HKCR:\Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}"
 Set-ItemProperty "HKCR:\Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" "System.IsPinnedToNameSpaceTree" 0
 Remove-PSDrive "HKCR"
 
-Write-Output "Removing run hook for new users"
-reg load "HKU\Default" "C:\Users\Default\NTUSER.DAT"
-reg delete "HKEY_USERS\Default\Software\Microsoft\Windows\CurrentVersion\Run" /v "OneDriveSetup" /f
-reg unload "hku\Default"
-
-Write-Output "Taking ownership over every provisionned packages"
-takeown /F "C:\Program Files\WindowsApps"
-takeown /F "C:\Program Files\WindowsApps" /r /d y
-icacls "C:\Program Files\WindowsApps" /grant Administrators:F
-icacls "C:\Program Files\WindowsApps" /grant Administrators:F /t
-icacls "C:\Program Files\WindowsApps" /setowner "NT Service\TrustedInstaller"
-
-Write-Output "Delete all provisionned package sources"
-rm "C:\Program Files\Windowsapps" -r -fo
-
 Write-Output "Removing startmenu entry"
 Remove-Item -Force -ErrorAction SilentlyContinue "$env:userprofile\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OneDrive.lnk"
 
@@ -148,6 +133,22 @@ $confirmation = Read-Host "Do you want to delete ALL Windows pre-installed apps 
 if ($confirmation -eq 'y') {
     Write-Output "Removing all apps remaining..."
 	Get-AppxPackage -allusers | Remove-AppxPackage -erroraction 'silentlycontinue'
+
+	Write-Output "Removing run hook for new users"
+	reg load "HKU\Default" "C:\Users\Default\NTUSER.DAT"
+	reg delete "HKEY_USERS\Default\Software\Microsoft\Windows\CurrentVersion\Run" /v "OneDriveSetup" /f
+	reg unload "hku\Default"
+
+	Write-Output "Taking ownership over every provisionned packages"
+	takeown /F "C:\Program Files\WindowsApps"
+	takeown /F "C:\Program Files\WindowsApps" /r /d y
+	icacls "C:\Program Files\WindowsApps" /grant Administrators:F
+	icacls "C:\Program Files\WindowsApps" /grant Administrators:F /t
+	icacls "C:\Program Files\WindowsApps" /setowner "NT Service\TrustedInstaller"
+
+	Write-Output "Delete all provisionned package sources"
+	rm "C:\Program Files\Windowsapps" -r -fo
+
 	Write-Output "All pre-installed apps deleted !"
 }
 ##
