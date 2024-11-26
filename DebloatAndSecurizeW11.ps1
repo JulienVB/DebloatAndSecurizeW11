@@ -2,7 +2,7 @@
 ##
 ##V2.2
 ##
-##Tested via HardeningKitty 0.9.2-1690255284 ==> Score: 4.17 (As last commit date)
+##Tested via HardeningKitty 0.9.2-1690255284 ==> Score: 4.19 (As last commit date)
 ##
 #Requires -RunAsAdministrator
 ##
@@ -685,6 +685,27 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search
 Write-Output "Disable News & Interests in task bar"
 New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\" -Name "Windows Feeds" -Force
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds" -Name "EnableFeeds" -Type "DWORD" -Value 0 -Force
+##
+#Disable user control over installs
+##
+Write-Output "Disable user control over installs"
+New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\" -Name "Installer" -Force
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Installer" -Name "EnableUserControl" -Type "DWORD" -Value 0 -Force
+##
+#Prevent Internet Explorer security prompt for Windows Installer scripts
+##
+Write-Output "Prevent Internet Explorer security prompt for Windows Installer scripts"
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Installer" -Name "SafeForScripting" -Type "DWORD" -Value 0 -Force
+##
+#Disable MSI installs for non-managed apps
+##
+Write-Output "Disable MSI installs for non-managed apps"
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Installer" -Name "DisableMSI" -Type "DWORD" -Value 1 -Force
+##
+#Disable USB Co-installer
+##
+Write-Output "Disable USB Co-Installer"
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Device Installer" -Name "DisableCoInstallers" -Type "DWORD" -Value 1 -Force
 ##
 $infomsg2 = "`r`n" +
 "###########################################################################################`r`n" +
