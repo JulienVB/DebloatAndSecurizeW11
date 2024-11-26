@@ -490,6 +490,11 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name 
 Write-Output "Turn off convenience PIN sign-in"
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "AllowDomainPINLogon" -Type "DWORD" -Value 0 -Force
 ##
+#Disable Microsoft Hello Login method
+##
+Write-Output "Disable Microsoft Hello login method"
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\Settings\AllowSignInOptions" -Name "Value" -Type "DWORD" -Value 0 -Force
+##
 #Disable Clipboard synchronization across devices
 ##
 Write-Output "Disable Clipboard synchronization across devices"
