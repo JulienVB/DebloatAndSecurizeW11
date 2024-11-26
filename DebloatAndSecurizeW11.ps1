@@ -1,14 +1,15 @@
 ##Debloat+Security Script by jvb##
 ##
-##V2.2
+##V2.3
 ##
-##Tested via HardeningKitty 0.9.2-1690255284 ==> Score: 4.19 (As last commit date)
+##Tested via HardeningKitty 0.9.2-1690255284 ==> Score: 4.2 (As last commit date)
+##HardeningKitty link: https://github.com/scipag/HardeningKitty
 ##
 #Requires -RunAsAdministrator
 ##
 $infomsg = "`r`n" +
 "###########################################################################################`r`n" +
-"### Windows 11 Hardening V2.2 (Vanbelle J.) ###`r`n" +
+"### Windows 11 Hardening V2.3 (Vanbelle J.) ###`r`n" +
 "###########################################################################################`r`n"
 Write-Host $infomsg
 ##
@@ -706,6 +707,12 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Installer" -Na
 ##
 Write-Output "Disable USB Co-Installer"
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Device Installer" -Name "DisableCoInstallers" -Type "DWORD" -Value 1 -Force
+##
+#Disable ability to join an HomeGroup
+##
+Write-Output "Disable ability to join an HomeGroup"
+New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\" -Name "Homegroup" -Force
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Homegroup" -Name "DisableHomeGroup" -Type "DWORD" -Value 1 -Force
 ##
 $infomsg2 = "`r`n" +
 "###########################################################################################`r`n" +
