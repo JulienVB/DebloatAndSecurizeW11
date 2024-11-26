@@ -2,7 +2,7 @@
 ##
 ##V2.3
 ##
-##Tested via HardeningKitty 0.9.2-1690255284 ==> Score: 4.2 (As last commit date)
+##Tested via HardeningKitty 0.9.2-1690255284 ==> Score: 4.21 (As last commit date)
 ##HardeningKitty link: https://github.com/scipag/HardeningKitty
 ##
 #Requires -RunAsAdministrator
@@ -713,6 +713,12 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Device I
 Write-Output "Disable ability to join an HomeGroup"
 New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\" -Name "Homegroup" -Force
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Homegroup" -Name "DisableHomeGroup" -Type "DWORD" -Value 1 -Force
+##
+#Disable LLMNR DNS option
+##
+Write-Output "Disable LLMNR DNS option"
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient" -Name "EnableMulticast" -Type "DWORD" -Value 0 -Force
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters" -Name "EnableNetbios" -Type "DWORD" -Value 0 -Force
 ##
 $infomsg2 = "`r`n" +
 "###########################################################################################`r`n" +
