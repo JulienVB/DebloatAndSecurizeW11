@@ -720,11 +720,24 @@ Write-Output "Disable LLMNR DNS option"
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient" -Name "EnableMulticast" -Type "DWORD" -Value 0 -Force
 Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters" -Name "EnableNetbios" -Type "DWORD" -Value 0 -Force
 ##
-#Disable printer driver by non-admin users
+#Disable printer driver by non-admin users & Point&Print mitigation
 ##
 Write-Output "Disable printer driver by non-admin users"
 New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Printers\" -Name "PointAndPrint" -Force
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Printers\PointAndPrint" -Name "RestrictDriverInstallationToAdministrators" -Type "DWORD" -Value 1 -Force
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Printers\PointAndPrint" -Name "NoWarningNoElevationOnInstall" -Type "DWORD" -Value 0 -Force
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Printers\PointAndPrint" -Name "NoWarningNoElevationOnUpdate" -Type "DWORD" -Value 0 -Force
+New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Printers\" -Name "PackagePointAndPrint" -Force
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Printers\PackagePointAndPrint" -Name "PackagePointAndPrintOnly" -Type "DWORD" -Value 1 -Force
+##Modify rights on the printer spooler driver
+$Path = "C:\Windows\System32\spool\drivers"
+$Acl = (Get-Item $Path).GetAccessControl('Access')
+$Ar = New-Object  System.Security.AccessControl.FileSystemAccessRule("System", "Modify", "ContainerInherit, ObjectInherit", "None", "Deny")
+$Acl.AddAccessRule($Ar)
+Set-Acl $Path $Acl
+##Stop the Spooler service and reset service properties
+Stop-Service -Name Spooler -Force
+Set-Service -Name Spooler -StartupType Disabled
 ##
 $infomsg2 = "`r`n" +
 "###########################################################################################`r`n" +
