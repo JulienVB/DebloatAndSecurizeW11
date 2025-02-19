@@ -2,7 +2,7 @@
 ##
 ##V2.3
 ##
-##Tested via HardeningKitty 0.9.2-1690255284 ==> Score: 4.21 (As last commit date)
+##Tested via HardeningKitty 0.9.2-1690255284 ==> Score: 4.22 (As last commit date)
 ##HardeningKitty link: https://github.com/scipag/HardeningKitty
 ##
 #Requires -RunAsAdministrator
@@ -719,6 +719,12 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Homegroup" -Na
 Write-Output "Disable LLMNR DNS option"
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient" -Name "EnableMulticast" -Type "DWORD" -Value 0 -Force
 Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters" -Name "EnableNetbios" -Type "DWORD" -Value 0 -Force
+##
+#Disable printer driver by non-admin users
+##
+Write-Output "Disable printer driver by non-admin users"
+New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Printers\" -Name "PointAndPrint" -Force
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Printers\PointAndPrint" -Name "RestrictDriverInstallationToAdministrators" -Type "DWORD" -Value 1 -Force
 ##
 $infomsg2 = "`r`n" +
 "###########################################################################################`r`n" +
